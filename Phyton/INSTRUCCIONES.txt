@@ -1,0 +1,801 @@
+﻿================================================================================
+   SIGEPE - SISTEMA DE GESTION DE ENVIOS Y PAQUETERIA EMPRESARIAL
+   Version 2.0
+
+   INSTRUCCIONES DE INSTALACION  +  GUIA DE USUARIO
+
+   Estructuras lineales:  LISTA  |  PILA (LIFO)  |  COLA (FIFO)
+================================================================================
+
+
+CONTENIDO
+---------
+   1. Que es este proyecto
+   2. Requisitos
+   3. PARTE 1 - Instrucciones de instalacion
+   4. Como esta organizada la informacion (carpetas)
+   5. Que hace cada carpeta
+   6. Las tres estructuras lineales y por que se eligio cada una
+   7. PARTE 2 - Guia de usuario
+   8. Resumen de comandos
+   9. Preguntas frecuentes
+  10. Detalle tecnico
+
+
+================================================================================
+1. QUE ES ESTE PROYECTO
+================================================================================
+
+SIGEPE es un sistema de escritorio para administrar las solicitudes de envio
+de una empresa. Las solicitudes llegan (antes por WhatsApp) y deben
+atenderse en el ORDEN en que llegaron: la primera que entra es la primera
+que se asigna a un repartidor.
+
+El sistema permite trabajar con las TRES estructuras lineales clasicas para
+poder comparar su comportamiento:
+
+   COLA (FIFO)  - la primera en entrar es la primera en salir
+   PILA (LIFO)  - la ultima en entrar es la primera en salir
+   LISTA        - acceso por posicion, busqueda y reordenamiento
+
+Trae dos interfaces que usan exactamente los mismos procesos:
+
+   - Ventana grafica (tkinter), con un formulario para ingresar los datos.
+   - Menu de consola (texto), por si no se puede abrir la ventana.
+
+Ademas trae 67 pruebas automaticas que comprueban el comportamiento de
+cada estructura.
+
+
+================================================================================
+2. REQUISITOS
+================================================================================
+
+   - Windows 7 o superior (tambien funciona en Linux y macOS)
+   - Python 3.9 o superior
+   - tkinter, que viene incluido en el instalador oficial de Python
+
+   IMPORTANTE: el proyecto NO necesita instalar librerias con pip. Usa
+   solamente la libreria estandar de Python. El archivo requirements.txt
+   esta vacio a proposito.
+
+
+================================================================================
+3. PARTE 1 - INSTRUCCIONES DE INSTALACION
+================================================================================
+
+3.1 Instalar Python (solo si ya lo tienes, pasa al punto 3.2)
+----------------------------------------------------------------
+
+   1) Abre en el navegador:  https://www.python.org/downloads/
+   2) Presiona el boton grande "Download Python 3.x.x".
+   3) Ejecuta el archivo descargado.
+   4) IMPORTANTE: marca la casilla de abajo que dice
+      "Add Python to PATH".
+   5) Presiona "Install Now".
+
+   Si ya instalaste Python antes sin esa casilla, no pasa nada: el
+   instalador "instalar.bat" de este proyecto tambien busca el lanzador
+   "py" de Windows, que no necesita el PATH.
+
+
+3.2 Opcion A - Instalacion automatica (recomendado)
+---------------------------------------------------
+
+   1) Abre la carpeta del proyecto (D:\Phyton).
+   2) Haz doble clic en el archivo   instalar.bat
+   3) El instalador hace todo solo:
+        - busca Python en el computador
+        - verifica que la version sea 3.9 o superior
+        - verifica que tkinter este disponible
+        - verifica que la estructura de carpetas este completa
+        - compila todo el codigo para detectar errores de sintaxis
+        - ejecuta las 67 pruebas automaticas
+   4) Al final te pregunta si quieres abrir la aplicacion. Responde S.
+
+   Si todo esta bien, veras esta linea en la consola:
+
+        [OK] Todas las pruebas pasaron.
+
+
+3.3 Opcion B - Instalacion manual
+---------------------------------
+
+   No hay nada que compilar ni que instalar. El proyecto usa solo la
+   libreria estandar de Python. Estos son los pasos:
+
+   1) Abre el simbolo del sistema: presiona Windows + R, escribe "cmd"
+      y presiona Enter. (O busca "Simbolo del sistema" en el menu Inicio.)
+   2) Cambia a la carpeta del proyecto:
+
+         cd /d D:\Phyton
+
+   3) Verifica que Python este instalado:
+
+         python --version
+
+      Si no funciona, prueba con el lanzador de Windows:
+
+         py --version
+
+   4) Verifica que tkinter este disponible:
+
+         python -c "import tkinter; print('tkinter OK')"
+
+   5) Corre las pruebas automaticas:
+
+         python main.py --pruebas
+
+   6) Abre la aplicacion:
+
+         python main.py
+
+   Listo. No se requiere ningun otro paso.
+
+
+3.4 Verificar la instalacion
+----------------------------
+
+   Si quieres comprobar que todo quedo bien, abre la consola de comandos y
+   ejecuta:
+
+         cd /d D:\Phyton
+         python main.py --pruebas
+
+   El resultado correcto es:
+
+         Ran 67 tests in ...
+         OK
+
+   Si aparece "OK", la instalacion esta completa y funcional.
+
+
+3.5 Problemas frecuentes de instalacion
+---------------------------------------
+
+   PROBLEMA: "python no se reconoce como un comando interno..."
+   CAUSA:   Python no esta en el PATH.
+   SOLUCION:
+     - Opcion 1: vuelve a instalar Python marcando "Add Python to PATH".
+     - Opcion 2: usa el lanzador de Windows, cambia "python" por "py":
+           py main.py
+     - Opcion 3: ejecuta instalar.bat, que ya intenta usar "py".
+
+   PROBLEMA: "ModuleNotFoundError: No module named 'tkinter'"
+   CAUSA:   Python se instalo sin el componente tkinter.
+   SOLUCION:
+     - Vuelve a ejecutar el instalador de Python.
+     - Elige "Modify" y marca "tcl/tk and IDLE".
+     - Presiona Next y Finish.
+     - La aplicacion NO se rompe: en ese caso arranca sola en el menu de
+       consola, que tiene las mismas funciones.
+
+   PROBLEMA: "No module named 'estructura_datos'"
+   CAUSA:   Se ejecuto un archivo desde otra carpeta.
+   SOLUCION: La consola debe estar en D:\Phyton. Usa:
+         cd /d D:\Phyton
+     o ejecuta siempre el proyecto con doble clic en iniciar.bat, que ya
+     seUbica solo en la carpeta correcta.
+
+   PROBLEMA: La ventana abre y se cierra de inmediato.
+   CAUSA:   Un error de Python que no se ve en pantalla.
+   SOLUCION: Ejecuta desde la consola para leer el mensaje:
+         python main.py
+     Si aparece un error, envialo tal cual para revisarlo.
+
+   PROBLEMA: "No se pudo abrir la ventana grafica"
+   SOLUCION: Se cae automaticamente al menu de consola. Funciona igual.
+     Si quieres forzar la consola en cualquier momento:
+         python main.py --consola
+
+
+================================================================================
+4. COMO ESTA ORGANIZADA LA INFORMACION (CARPETAS)
+================================================================================
+
+   D:\Phyton
+   |
+   |-- main.py                     Punto de entrada unico del sistema
+   |-- iniciar.bat                 Doble clic para abrir la aplicacion
+   |-- instalar.bat                Instalador y verificador automatico
+   |-- requirements.txt            Dependencias (vacio: no hace falta pip)
+   |-- INSTRUCCIONES.txt           Este documento
+   |-- sigepe_cola_enviosf.py      Version anterior del modulo (se conserva
+   |                               como respaldo, ya no se usa)
+   |
+   |-- modelos/                    CLASES de datos
+   |     |-- solicitud.py          Clase Solicitud
+   |     |-- repartidor.py         Clase Repartidor
+   |     +-- __init__.py
+   |
+   |-- estructura_datos/           METODOS de las estructuras lineales
+   |     |-- base.py               Clase base EstructuraLineal
+   |     |
+   |     |-- listas/               ESTRUCTURA LINEAL: LISTA
+   |     |     |-- lista_solicitudes.py
+   |     |     +-- __init__.py
+   |     |
+   |     |-- pilas/                ESTRUCTURA LINEAL: PILA (LIFO)
+   |     |     |-- pila_envios.py
+   |     |     +-- __init__.py
+   |     |
+   |     +-- colas/                ESTRUCTURA LINEAL: COLA (FIFO)
+   |           |-- cola_envios.py
+   |           +-- __init__.py
+   |
+   |-- procesos/                   PROCESOS de negocio (funciones)
+   |     |-- registro.py           Registrar una solicitud
+   |     |-- asignacion.py         Asignar a un repartidor
+   |     |-- cancelacion.py        Cancelar una solicitud
+   |     +-- consulta.py           Listar, filtrar y resumir
+   |
+   |-- utilidades/                 FUNCIONES de apoyo
+   |     |-- validacion.py         Revisar los datos que se ingresan
+   |     +-- formato.py            Armar los textos y tablas de pantalla
+   |
+   |-- interfaz/                   INTERFAZ (lo que ve el usuario)
+   |     |-- consola/              Ventana de texto
+   |     |     |-- entradas.py     Captura de datos por teclado
+   |     |     +-- menu_consola.py Menu principal
+   |     |
+   |     +-- grafica/              Ventana con tkinter
+   |           |-- widgets.py              Controles reutilizables
+   |           |-- formulario_solicitud.py  Formulario de ingreso de datos
+   |           |-- pestana_estructura.py   Una pestana por estructura
+   |           +-- ventana_principal.py     Arma toda la pantalla
+   |
+   +-- pruebas/                    PRUEBAS automaticas
+         |-- test_estructuras.py   67 pruebas de las 3 estructuras
+         +-- __init__.py           Ejecutor de la suite
+
+
+   Cada carpeta tiene su "__init__.py". Eso convierte cada carpeta en un
+   PAQUETE de Python y permite imports limpios como:
+
+         from estructura_datos.colas import ColaEnvios
+
+   La regla de separacion es esta:
+
+      modelos/          -> CLASES  (que es un dato y que puede hacer)
+      estructura_datos/ -> METODOS (como se guardan y se sacan los datos)
+      procesos/         -> PROCESOS (que hace el negocio con los datos)
+      utilidades/       -> FUNCIONES sueltas de apoyo
+      interfaz/         -> PANTALLAS (como se le pide algo al usuario)
+
+
+================================================================================
+5. QUE HACE CADA CARPETA
+================================================================================
+
+   modelos/
+      Solo datos. Aqui vive la clase Solicitud (cliente, direccion,
+      descripcion, prioridad, estado) y la clase Repartidor.
+      No sabe nada de listas, pilas ni colas.
+
+   estructura_datos/
+      El corazon del proyecto. Cada estructura lineal tiene su propia
+      subcarpeta con su clase. Todas heredan de EstructuraLineal, que
+      define el contrato comun: agregar, quitar, siguiente, esta_vacia,
+      tamanio, listar, buscar y cancelar.
+      Gracias a ese contrato comun, los procesos y las interfaces funcionan
+      igual con las tres estructuras sin cambiar una sola linea.
+
+   procesos/
+      Las reglas del negocio. Son funciones que reciben una estructura y
+      devuelven un resultado. NO imprimen nada en pantalla: eso es trabajo
+      de la interfaz.
+      - registro.py    crea y valida solicitudes
+      - asignacion.py  saca la siguiente solicitud y la asigna
+      - cancelacion.py da de baja una solicitud
+      - consulta.py    filtra, ordena y resume
+
+   utilidades/
+      Funciones sueltas, sin estado. validacion.py revisa que los datos
+      que se ingresan sean correctos (la misma validacion la usan el
+      formulario grafico y el menu de consola). formato.py arma los
+      textos y las tablas.
+
+   interfaz/
+      Lo que ve el usuario. Hay dos versiones que comparten los procesos:
+      la grafica (tkinter) y la de consola (texto).
+
+   pruebas/
+      67 pruebas automaticas con unittest que comprueban que la COLA es
+      FIFO, que la PILA es LIFO y que la LISTA permite reordenar.
+
+
+================================================================================
+6. LAS TRES ESTRUCTURAS LINEALES Y POR QUE SE ELIGIO CADA UNA
+================================================================================
+
+   La estructura lineal correcta depende de UNA sola pregunta:
+   "¿Que tiene que salir primero?"
+
+   --------------------------------------------------------------------
+   COLA (FIFO) - First In, First Out
+   Carpeta:  estructura_datos/colas/     Clase: ColaEnvios
+   Base:     collections.deque
+   --------------------------------------------------------------------
+   Cuando se usa: el ORDEN DE LLEGADA define la prioridad.
+   Ejemplo:    las solicitudes llegan por WhatsApp y deben atenderse en el
+               mismo orden. La primera en entrar es la primera en salir.
+   Como se ve:
+
+        FRENTE  ->  [ 1 | 2 | 3 | 4 ]  <- FONDO
+                  entra por aqui    sale por aqui
+
+   Operaciones: encolar, desencolar, frente, cancelar, listar
+   Complejidad:  encolar y desencolar son O(1) (tiempo constante),
+                 porque deque esta disenado para eso.
+                cancelar es O(n) porque hay que buscar el ID en medio.
+
+   --------------------------------------------------------------------
+   PILA (LIFO) - Last In, First Out
+   Carpeta:  estructura_datos/pilas/     Clase: PilaEnvios
+   --------------------------------------------------------------------
+   Cuando se usa: la PETICION MAS RECIENTE es la prioritaria, o se quiere
+                  un historial donde interesa el ultimo movimiento primero.
+   Ejemplo:    el historial de asignaciones del sistema. Si abres el
+               historial, quieres ver primero lo que acaba de pasar, no lo
+               de hace tres horas.
+   Como se ve:
+
+        CIMA    ->  [ 1 | 2 | 3 | 4 ]  <- BASE
+                  sale por aqui    entra por aqui
+
+   Operaciones: apilar, desapilar, cima, cantidad_bajo_cima, cancelar
+   Complejidad:  apilar y desapilar son O(1).
+                cancelar es O(n).
+
+   --------------------------------------------------------------------
+   LISTA
+   Carpeta:  estructura_datos/listas/    Clase: ListaSolicitudes
+   --------------------------------------------------------------------
+   Cuando se usa: hay que BUSCAR por ID, INSERTAR en cualquier posicion o
+                  REORDENAR por prioridad.
+   Ejemplo:    un cliente avisa por telefono que su envio es urgente. Con
+               la lista puedes subirlo al primer lugar sin sacar el resto
+               de la cola, o puedes ordenar toda la bandeja de mayor a
+               menor urgencia.
+   Operaciones: agregar, agregar_al_inicio, agregar_en_posicion,
+                quitar_por_id, obtener_por_posicion, indice_de,
+                mover_a_inicio, mover_arriba, ordenar_por_prioridad,
+                ordenar_por_id, invertir
+
+   --------------------------------------------------------------------
+   LA REGLA QUE LO RESUME
+   --------------------------------------------------------------------
+      La LISTA es la estructura general.
+      La COLA es una lista donde se inserta y se saca SOLO por el final.
+      La PILA es una lista donde se inserta y se saca SOLO por el inicio.
+
+      Pregunta para elegir:
+        ¿Importa el orden de llegada?          -> COLA   (FIFO)
+        ¿Importa la peticion mas reciente?     -> PILA   (LIFO)
+        ¿Hay que buscar o reordenar?            -> LISTA
+
+   En este sistema, la COLA es la estructura principal porque el negocio
+   es una fila de despacho: nadie puede ser saltado aunque pida urgencia.
+   La PILA se usa para el historial. La LISTA se usa cuando hay que
+   reordenar por prioridad.
+
+
+================================================================================
+7. PARTE 2 - GUIA DE USUARIO
+================================================================================
+
+7.1 ABRIR LA APLICACION
+--------------------------------------------------------------------------------
+   Opcion 1 (la mas facil): haz doble clic en   iniciar.bat
+   Opcion 2: abre la consola de comandos, escribe
+
+         cd /d D:\Phyton
+         python main.py
+
+   Opcion 3 (sin ventana, solo texto):
+
+         python main.py --consola
+
+   Para cerrar la ventana: presiona la X de arriba a la derecha.
+   Para cerrar la consola: escribe 0 y presiona Enter.
+
+
+7.2 COMO ESTA ARMADA LA VENTANA
+--------------------------------------------------------------------------------
+   +--------------------------------------------------------------------+
+   | Menu:  Archivo | Herramientas | Ayuda                                |
+   +--------------------------------------------------------------------+
+   | IZQUIERDA: el formulario para       DERECHA: pestanas                |
+   | ingresar los datos                   COLA | PILA | LISTA               |
+   |                                       (tabla + boton de asignar)      |
+   +--------------------------------------------------------------------+
+   | Actividad reciente      | Historial de asignaciones (PILA)           |
+   +--------------------------------------------------------------------+
+   | Barra de estado (abajo): resumen de pendientes, asignadas e historial |
+   +--------------------------------------------------------------------+
+
+   PARTES DE LA PESTAÑA SUPERIOR
+     COLA (FIFO)  Muestra las solicitudes. La fila resaltada en amarillo
+                  es la que sale primero: la mas antigua.
+     PILA (LIFO)  La fila resaltada en amarillo es la de la cima: la mas
+                  reciente. Mira como cambia respecto a la COLA.
+     LISTA        La fila resaltada en amarillo es la posicion 1. Ademas
+                  tiene dos botones extra para reordenar.
+
+   PARTES DE LA PARTE INFERIOR
+     Actividad reciente: bitacora con la hora de cada operacion.
+     Historial: las asignaciones guardadas en una PILA. El movimiento mas
+                reciente aparece ARRIBA.
+
+
+7.3 LOS DATOS QUE PIDE EL SISTEMA
+--------------------------------------------------------------------------------
+   En el formulario de la izquierda se ingresan cuatro campos:
+
+   CAMPO         OBLIGATORIO   QUE ES                          LIMITE
+   ------------   -----------   -----------------------------   ---------
+   Cliente       Si            Nombre de quien recibe el envio   2 a 40
+   Direccion     Si            Donde se entrega                 2 a 80
+   Descripcion   Si            Que va en el paquete             2 a 80
+   Prioridad     No            Baja, Normal, Alta o Urgente     una de 4
+
+   Al presionar "Registrar", el sistema revisa los datos:
+     - si un campo obligatorio esta vacio, aparece un mensaje de error y
+       el cursor queda en el campo que falta;
+     - si el texto es muy corto o muy largo, avisa;
+     - si la prioridad no es una de las cuatro, avisa y muestra las
+       opciones validas.
+
+   NOTA sobre la prioridad: solo la estructura LISTA la usa para ordenar.
+   En la COLA y en la PILA el orden de salida es fijo y lo define el
+   momento en que se registro la solicitud.
+
+
+7.4 COMO INGRESAR UNA SOLICITUD (PASO A PASO)
+--------------------------------------------------------------------------------
+   1) Presiona la pestana donde quieres que se guarde (COLA, PILA o LISTA).
+   2) Presiona el campo "Cliente" y escribe el nombre.
+   3) Presiona el campo "Direccion" y escribe la direccion de entrega.
+   4) Presiona el campo "Descripcion" y escribe que lleva el paquete.
+   5) Elige la "Prioridad" en la lista desplegable.
+      (Urgente sale en rojo en la tabla.)
+   6) Presiona el boton "Registrar".
+      Atajo: en cualquier campo, presiona ENTER y se registra sola.
+
+   Si la pestana activa es COLA, la solicitud entra al fondo de la cola.
+   Si es PILA, entra a la cima de la pila.
+   Si es LISTA, entra al final de la lista.
+
+   Cada pestana guarda SUS PROPIAS solicitudes. Puedes tener 3 en la COLA
+   y 3 en la PILA al mismo tiempo, sin que se mezclen.
+
+
+7.5 BOTONES DE CADA PESTANA
+--------------------------------------------------------------------------------
+   Boton                          Que hace
+   ----------------------------   ------------------------------------------
+   Asignar la del frente (FIFO)   Saca la mas ANTIGUA de la COLA y la
+   (solo COLA)                    asigna al repartidor que escribiste.
+
+   Asignar la de la cima (LIFO)    Saca la mas RECIENTE de la PILA y la
+   (solo PILA)                    asigna al repartidor que escribiste.
+
+   Asignar por ID (solo LISTA)     Te pide el numero de la solicitud
+                                  concreta y la asigna sin importar en
+                                  que posicion este.
+
+   Cancelar seleccionada           Marca una fila, la saca de la estructura
+                                  y pasa su estado a "Cancelado". Pide
+                                  confirmacion.
+
+   Marcar entregado                Marca la solicitud como "Entregado".
+                                  Solo funciona si la asignaste tu.
+
+   Actualizar                      Vuelve a dibujar la tabla.
+
+   Subir al inicio (solo LISTA)    Mueve la fila seleccionada a la
+                                  posicion 1. Sirve para corregir un
+                                  error de orden o para adelantar una
+                                  solicitud urgente.
+
+   Ordenar por prioridad (LISTA)   Reordena toda la tabla de mayor a menor
+                                  urgencia. Entre solicitudes de la misma
+                                  prioridad respeta el orden de llegada.
+
+
+7.6 MENU SUPERIOR
+--------------------------------------------------------------------------------
+   ARCHIVO
+     Cargar ejemplo     Carga 5 solicitudes de prueba en cada estructura.
+                        Perfecto para probar sin escribir datos.
+     Vaciar todo        Cancela todo y borra el historial. Pide confirmacion.
+     Salir              Cierra la ventana.
+
+   HERRAMIENTAS
+     Ejecutar pruebas automaticas   Corre las 67 pruebas y te dice el
+                                    resultado.
+     Criterio de seleccion          Muestra por que se eligio cada
+                                    estructura y que operaciones tiene.
+
+   AYUDA
+     Como usar la app    Guia rapida de 5 pasos.
+     Acerca de           Version y resumen de las carpetas del proyecto.
+
+
+7.7 EJEMPLO COMPLETO PASO A PASO - LA COLA (FIFO)
+--------------------------------------------------------------------------------
+   Este ejemplo reproduce el caso del modulo original.
+
+   1) Presiona la pestana COLA. Presiona el boton "Registrar" con estos
+      datos, uno por uno:
+
+         Cliente:       Ana Perez
+         Direccion:     Altamira
+         Descripcion:   Paquete pequeno
+         Prioridad:     Normal
+         -> Registrar
+
+         Cliente:       Luis Mora
+         Direccion:     Villa Fontana
+         Descripcion:   Documentos
+         Prioridad:     Normal
+         -> Registrar
+
+         Cliente:       Rosa Gomez
+         Direccion:     Bello Horizonte
+         Descripcion:   Comida
+         Prioridad:     Normal
+         -> Registrar
+
+   2) Ahora la COLA tiene 3 solicitudes, en este orden:
+
+         1  Ana Perez
+         2  Luis Mora      <- esta fila sale en amarillo
+         3  Rosa Gomez
+
+   3) Presiona "Asignar la del frente (FIFO)", con "Repartidor 1".
+      Sale la solicitud 1 (Ana Perez) y queda en estado "En Ruta".
+      El historial de la derecha ya muestra:  #1 Ana Perez -> Repartidor 1
+
+   4) Presiona "Cancelar seleccionada" sobre la fila 3 (Rosa Gomez).
+      La cola queda con la 2 solamente.
+
+   5) Presiona "Asignar la del frente (FIFO)" otra vez.
+      Sale la solicitud 2 (Luis Mora). La COLA queda vacia.
+
+   6) Presiona "Asignar" con la COLA vacia.
+      Aparece: "No hay solicitudes pendientes en la COLA."
+      La app no se cae: ese error esta controlado.
+
+
+7.8 EJEMPLO COMPLETO PASO A PASO - LA PILA (LIFO)
+--------------------------------------------------------------------------------
+   1) Presiona la pestana PILA y registra las mismas 3 solicitudes.
+   2) Ahora la pila tiene:
+
+         1  Ana Perez
+         2  Luis Mora
+         3  Rosa Gomez    <- esta fila sale en amarillo (es la cima)
+
+   3) Presiona "Asignar la de la cima (LIFO)".
+      Sale la solicitud 3 (Rosa Gomez), NO la 1.
+
+   COMPARACION: con los mismos datos, la COLA entrego primero a Ana y la
+   PILA primero a Rosa. Esa diferencia es exactamente lo que significa FIFO
+   y LIFO. Sirve para explicar la eleccion de estructura lineal.
+
+
+7.9 EJEMPLO COMPLETO PASO A PASO - LA LISTA
+--------------------------------------------------------------------------------
+   1) Presiona la pestana LISTA y registra:
+
+         Cliente:      Pedro Gomez   Prioridad: Baja
+         Cliente:      Lucia Rojas   Prioridad: Urgente
+         Cliente:      Andres Gil    Prioridad: Alta
+
+   2) Presiona "Ordenar por prioridad". La tabla queda:
+
+         Lucia Rojas    Urgente   <- sale en amarillo
+         Andres Gil     Alta
+         Pedro Gomez    Baja
+
+   3) Presiona "Asignar por ID" y escribe 3. Se asigna a Pedro Gomez, que
+      estaba en el ultimo lugar. En la COLA eso habria sido imposible sin
+      cancelar y volver a encolar.
+
+   4) Presiona "Subir al inicio" sobre Andres Gil. Pasa a la posicion 1.
+      Ahi tienes el caso de uso de la lista: reordenar por prioridad sin
+      perder el orden del resto.
+
+
+7.10 COMO USAR LA VERSION DE CONSOLA
+--------------------------------------------------------------------------------
+   Si la ventana grafica no abre, o si prefieres el menu de texto:
+
+         python main.py --consola
+
+   Al arrancar te pregunta que estructura quieres usar:
+
+         Elige la estructura (L/P/C) [C]:
+           L  = LISTA
+           P  = PILA
+           C  = COLA   (por defecto, presiona ENTER y listo)
+
+   MENU DE LA CONSOLA:
+
+         1. Registrar nueva solicitud
+         2. Ver la siguiente solicitud
+         3. Asignar la siguiente a un repartidor
+         4. Cancelar una solicitud por ID
+         5. Listar solicitudes pendientes
+         6. Ver estadisticas de la estructura
+         7. Cargar ejemplo de 5 solicitudes
+         8. Cambiar de estructura lineal
+         9. Vaciar la estructura actual
+         P. Ejecutar pruebas automaticas
+         0. Salir
+
+   La opcion 7 es la mas comoda para empezar: carga 5 solicitudes de
+   ejemplo y las muestra en tabla sin que tengas que escribir nada.
+
+
+7.11 PRUEBAS AUTOMATICAS
+--------------------------------------------------------------------------------
+   Para verlas desde la consola:
+
+         cd /d D:\Phyton
+         python main.py --pruebas
+
+   O desde la aplicacion:  menu Herramientas > Ejecutar pruebas automaticas
+
+   Las 67 pruebas cubren:
+     - La COLA saca siempre la mas antigua (FIFO).
+     - La COLA avisa correctamente cuando esta vacia.
+     - La COLA permite cancelar una solicitud del medio.
+     - La PILA saca siempre la mas reciente (LIFO).
+     - La PILA calcula cuantas solicitudes hay debajo de una dada.
+     - El historial en PILA devuelve el movimiento mas reciente primero.
+     - La LISTA accede por posicion e inserta en cualquier posicion.
+     - La LISTA reordena por prioridad conservando el orden de llegada
+       entre solicitudes de igual prioridad.
+     - La validacion rechaza campos vacios, textos muy largos y
+       prioridades inventadas.
+     - Asignar respeta el criterio de cada estructura.
+     - Cancelar y vaciar funcionan en las tres estructuras.
+     - Los filtros y las estadisticas dan los resultados correctos.
+
+   Salida esperada:
+
+         Ran 67 tests in 0.00s
+
+         OK
+
+
+================================================================================
+8. RESUMEN DE COMANDOS
+================================================================================
+
+   ABRIR LA APLICACION
+         iniciar.bat                      doble clic, modo ventana
+         python main.py                   modo ventana
+         python main.py --consola         modo texto
+         python main.py --estructura COLA arranca en consola con la COLA
+         python main.py --estructura PILA
+         python main.py --estructura LISTA
+
+   PRUEBAS
+         python main.py --pruebas
+         python -m unittest discover -s pruebas -t . -v
+
+   AYUDA
+         python main.py --help
+
+
+================================================================================
+9. PREGUNTAS FRECUENTES
+================================================================================
+
+   P: ¿Puedo cambiar de una estructura a otra en caliente?
+   R: Sí. En la ventana hay una pestana por estructura, y las tres
+      coexisten. En la consola, la opcion 8 del menu cambia la estructura
+      activa sin borrar lo que ya había en la anterior.
+
+   P: ¿Por qué no se puede asignar la solicitud 5 si hay una urgente?
+   R: Porque en la COLA el orden es fijo. Si la urgencia tiene que
+      ganar, entonces la estructura correcta es la LISTA: usa
+      "Ordenar por prioridad" o "Asignar por ID".
+
+   P: ¿Los datos se guardan si cierro la aplicacion?
+   R: No. Es un sistema de practica: los datos viven en memoria mientras
+      la aplicacion este abierta. Al cerrar, se borran. Para empezar de
+      cero otra vez, usa "Archivo > Cargar ejemplo".
+
+   P: ¿Puedo cambiar el texto de las solicitudes?
+   R: No hay edicion de una solicitud ya registrada. El flujo correcto es
+      cancelar la solicitud y registrarla de nuevo, o moverla de posicion
+      con los botones de la LISTA.
+
+   P: ¿Qué pasa si escribo un cliente que ya existe?
+   R: Se puede. Cada solicitud es independiente, con su propio ID. Un mismo
+      cliente puede tener varias solicitudes pendientes.
+
+   P: ¿Cómo sé cuál es la siguiente en salir?
+   R: La fila resaltada en amarillo dentro de cada tabla. En la barra
+      inferior de la pestana tambien sale el texto
+      "sale primero: #3 Rosa Gomez".
+
+   P: ¿Se puede usar en otro idioma?
+   R: Sí, pero habria que editar los textos de los archivos
+      interfaz/consola/ y utilidades/formato.py. El codigo ya esta
+      separado para eso.
+
+   P: ¿Sirve para un negocio real?
+   R: La logica de las estructuras y los procesos esta completa y
+      probada. Para un uso real faltaria agregar guardado en base de datos
+      y un archivo de los envios ya entregados (hoy solo se muestra en
+      memoria).
+
+
+================================================================================
+10. DETALLE TECNICO
+================================================================================
+
+   VERSION DE PYTHON
+     3.9 o superior. Probado en 3.14.
+
+   DEPENDENCIAS
+     Ninguna externa. Solo libreria estandar:
+         collections.deque   estructura de la COLA
+         tkinter             interfaz grafica
+         unittest             pruebas automaticas
+         argparse             parametros de linea de comandos
+
+   CAPAS Y DEPENDENCIAS
+     Las capas dependen hacia abajo, nunca hacia arriba:
+
+         interfaz/         (la capa mas alta: ve al usuario)
+              |
+           procesos/        (reglas de negocio)
+              |
+         estructura_datos/  (como se guardan los datos)
+              |
+           modelos/         (que es un dato)      <- la capa mas baja
+
+     utilidad/ es transversal: la usan la interfaz y los procesos.
+
+     Consecuencia practica: los procesos y las estructuras no importan
+     nada de la interfaz, asi que se pueden probar sin abrir ventanas.
+
+   HERENCIA
+     EstructuraLineal (estructura_datos/base.py) define el contrato:
+         agregar, quitar, siguiente  -> obligatorias
+         esta_vacia, tamanio, listar, buscar, cancelar -> comunes
+     ColaEnvios, PilaEnvios y ListaSolicitudes implementan el contrato.
+     Por eso un mismo proceso sirve para las tres:
+
+         solicitud, repartidor = asignar_siguiente(estructura, "Luis")
+
+     funciona igual con la cola, con la pila y con la lista.
+
+   ERRORES
+     EstructuraVaciaError (estructura_datos/base.py) se lanza al pedir un
+     elemento de una estructura vacia. Hereda de IndexError, asi que el
+     codigo que hacia "except IndexError" del modulo original sigue
+     funcionando.
+
+   VALIDACION
+     Toda entrada de datos pasa por utilidades/validacion.py antes de
+     crear la Solicitud. Se usa la misma funcion desde el formulario
+     grafico y desde la consola, asi que las dos dan el mismo resultado.
+
+   ARCHIVO ORIGINAL
+     sigepe_cola_enviosf.py se conserva sin modificar como respaldo de la
+     version 1.0 (un solo archivo, con clase Solicitud, clase ColaEnvios
+     y menu en la consola). Ya no se usa: el punto de entrada actual es
+     main.py. La version 2.0 conserva su logica de COLA FIFO y agrega el
+     formulario grafico, la PILA, la LISTA y la separacion en carpetas.
+
+================================================================================
+   Fin del documento.
+   Proyecto: SIGEPE - Estructuras lineales (Lista, Pila, Cola)
+================================================================================

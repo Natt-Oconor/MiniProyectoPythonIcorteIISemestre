@@ -1,0 +1,12 @@
+# SIGEPE - Sistema de Gestion de Envios y Paqueteria
+#
+# Este proyecto usa SOLO la libreria estandar de Python.
+# No hay nada que instalar con pip.
+#
+# Requisitos:
+#   - Python 3.9 o superior
+#   - tkinter (viene incluido en el instalador oficial de Python para Windows)
+#
+# El archivo esta vacio a proposito: se crea para que exista un archivo
+# estandar de dependencias y, si mas adelante el proyecto necesita
+# librerias externas, se agreguen aqui.
